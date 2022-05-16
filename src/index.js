@@ -8,14 +8,24 @@
  *
  * @returns string[]
  */
-export const getKeysByDescriptor = (object, descriptor) => {};
+export const getKeysByDescriptor = (object, descriptor) => {
+    return Object.entries(Object.getOwnPropertyDescriptors(object))
+    .filter(([, value]) => {
+      return value[descriptor];
+    })
+    .map(([key]) => {
+      return key;
+    });
+};
 
 /**
  * Должен вернуть true если объект был заморожен каким-либо методом заморозки freeze, seal, preventExtensions иначе false
  * @param {Object} object
  * @returns {boolean}
  */
-export const isObjectAnyFrozen = (object) => {};
+export const isObjectAnyFrozen = (object) => {
+    return !Object.isExtensible(object) || Object.isSealed(object) || Object.isFrozen(object);
+};
 
 /**
  * Принимает объект и строку. Мы должны вернуть НОВЫЙ объект(копию оригинального), в котором
